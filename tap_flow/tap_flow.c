@@ -87,7 +87,7 @@ bool pre_process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
 
   if (IS_KEYEVENT(record->event) && pos.row < MATRIX_ROWS
       && pos.col < MATRIX_COLS &&
-      (IS_QK_MOD_TAP(keycode)) {
+      (IS_QK_MOD_TAP(keycode))) {
     // The event is on an MT or LT with a valid matrix position.
     const uint16_t tap_keycode = get_tap_keycode(keycode);
 
