@@ -47,10 +47,10 @@ static uint16_t get_tap_keycode(uint16_t keycode) {
   switch (keycode) {
     case QK_MOD_TAP ... QK_MOD_TAP_MAX:
       return QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
-#ifndef NO_ACTION_LAYER
-    case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-      return QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-#endif  // NO_ACTION_LAYER
+// #ifndef NO_ACTION_LAYER
+//     case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+//       return QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+// #endif  // NO_ACTION_LAYER
   }
   return keycode;
 }
@@ -87,7 +87,7 @@ bool pre_process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
 
   if (IS_KEYEVENT(record->event) && pos.row < MATRIX_ROWS
       && pos.col < MATRIX_COLS &&
-      (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode))) {
+      (IS_QK_MOD_TAP(keycode)) {
     // The event is on an MT or LT with a valid matrix position.
     const uint16_t tap_keycode = get_tap_keycode(keycode);
 
@@ -133,13 +133,13 @@ bool pre_process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
         }
 #endif  // TAP_FLOW_DEBUG
 
-        if (IS_QK_LAYER_TAP(keycode)) {
-          const uint16_t term = GET_TAPPING_TERM(keycode, record);
-          const uint16_t now = timer_read();
-          if (!settle_timer || term > TIMER_DIFF_16(settle_timer, now)) {
-            settle_timer = (now + term) | 1;
-          }
-        }
+        // if (IS_QK_LAYER_TAP(keycode)) {
+        //   const uint16_t term = GET_TAPPING_TERM(keycode, record);
+        //   const uint16_t now = timer_read();
+        //   if (!settle_timer || term > TIMER_DIFF_16(settle_timer, now)) {
+        //     settle_timer = (now + term) | 1;
+        //   }
+        // }
       }
     } else if ((is_tapped[array_index] & bit_mask) != 0) {  // On tap release.
 #ifdef TAP_FLOW_DEBUG
