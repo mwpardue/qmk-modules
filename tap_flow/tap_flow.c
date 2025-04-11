@@ -47,31 +47,31 @@ static uint16_t get_tap_keycode(uint16_t keycode) {
   switch (keycode) {
     case QK_MOD_TAP ... QK_MOD_TAP_MAX:
       return QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
-// #ifndef NO_ACTION_LAYER
-//     case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-//       return QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-// #endif  // NO_ACTION_LAYER
+#ifndef NO_ACTION_LAYER
+    case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+      return QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+#endif  // NO_ACTION_LAYER
   }
   return keycode;
 }
 
-#ifdef COMBO_ENABLE
-#include "keymap_introspection.h"
-
-static bool is_combo_key(uint16_t keycode) {
-  for (uint16_t i = 0; i < combo_count(); ++i) {
-    const uint16_t* keys = combo_get(i)->keys;
-    uint16_t key;
-    do {
-      key = pgm_read_word(keys++);
-      if (key == keycode) { return true; }
-    } while (key != COMBO_END);
-  }
-  return false;
-}
-#else
-#define is_combo_key(keycode) false
-#endif  // COMBO_ENABLE
+// #ifdef COMBO_ENABLE
+// #include "keymap_introspection.h"
+//
+// static bool is_combo_key(uint16_t keycode) {
+//   for (uint16_t i = 0; i < combo_count(); ++i) {
+//     const uint16_t* keys = combo_get(i)->keys;
+//     uint16_t key;
+//     do {
+//       key = pgm_read_word(keys++);
+//       if (key == keycode) { return true; }
+//     } while (key != COMBO_END);
+//   }
+//   return false;
+// }
+// #else
+// #define is_combo_key(keycode) false
+// #endif  // COMBO_ENABLE
 
 void housekeeping_task_tap_flow(void) {
   if (settle_timer && timer_expired(timer_read(), settle_timer)) {
@@ -87,7 +87,7 @@ bool pre_process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
 
   if (IS_KEYEVENT(record->event) && pos.row < MATRIX_ROWS
       && pos.col < MATRIX_COLS &&
-      (IS_QK_MOD_TAP(keycode))) {
+      (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode))) {
     // The event is on an MT or LT with a valid matrix position.
     const uint16_t tap_keycode = get_tap_keycode(keycode);
 
@@ -103,7 +103,7 @@ bool pre_process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
         tap_flow_term = 500;
       }
 
-      if (!settle_timer && !is_combo_key(keycode) &&
+      if (!settle_timer &&
           idle_time < 500 && idle_time < tap_flow_term) {
 #ifdef TAP_FLOW_DEBUG
         dprintf("tap_flow: %02x%02xd within term (%u < %u) converted to tap.\n",
@@ -124,22 +124,22 @@ bool pre_process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
         if (settle_timer) {
           dprintf("tap_flow: %02x%02xd unchanged (unsettled state).\n",
                   pos.row, pos.col);
-        } else if (is_combo_key(keycode)) {
-          dprintf("tap_flow: %02x%02xd unchanged (combo key).\n",
-                  pos.row, pos.col);
+        // } else if (is_combo_key(keycode)) {
+        //   dprintf("tap_flow: %02x%02xd unchanged (combo key).\n",
+        //           pos.row, pos.col);
         } else {
           dprintf("tap_flow: %02x%02xd unchanged (outside time).\n",
                   pos.row, pos.col);
         }
 #endif  // TAP_FLOW_DEBUG
 
-        // if (IS_QK_LAYER_TAP(keycode)) {
-        //   const uint16_t term = GET_TAPPING_TERM(keycode, record);
-        //   const uint16_t now = timer_read();
-        //   if (!settle_timer || term > TIMER_DIFF_16(settle_timer, now)) {
-        //     settle_timer = (now + term) | 1;
-        //   }
-        // }
+        if (IS_QK_LAYER_TAP(keycode)) {
+          const uint16_t term = GET_TAPPING_TERM(keycode, record);
+          const uint16_t now = timer_read();
+          if (!settle_timer || term > TIMER_DIFF_16(settle_timer, now)) {
+            settle_timer = (now + term) | 1;
+          }
+        }
       }
     } else if ((is_tapped[array_index] & bit_mask) != 0) {  // On tap release.
 #ifdef TAP_FLOW_DEBUG
@@ -179,6 +179,13 @@ bool process_record_tap_flow(uint16_t keycode, keyrecord_t* record) {
         g_tap_flow_term -= 5;
         return false;
     }
+//     if (record->tap.count > 0) {
+//         last_input = timer_read32();
+// #ifdef TAP_FLOW_DEBUG
+//         const keypos_t pos = record->event.key;
+//         dprintf("tap_flow: %02x%02xu process_record timer update.\n", pos.row, pos.col);
+// #endif  // TAP_FLOW_DEBUG
+//     }
   }
   return true;
 }
