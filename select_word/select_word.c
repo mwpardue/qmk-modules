@@ -264,6 +264,7 @@ bool process_record_select_word(uint16_t keycode, keyrecord_t* record) {
   }
 #endif  // SELECT_WORD_TIMEOUT > 0
 
+  // const bool guied = MOD_MASK_GUI & (get_mods() | get_weak_mods());
   const bool shifted = MOD_MASK_SHIFT & (get_mods() | get_weak_mods()
 #ifndef NO_ACTION_ONESHOT
      | get_oneshot_mods()
@@ -281,7 +282,7 @@ bool process_record_select_word(uint16_t keycode, keyrecord_t* record) {
 
     case SELECT_WORD_BACK:
       if (record->event.pressed) {
-        select_word_register('B');
+        select_word_register(shifted ? 'L' : 'B');
       } else {
         select_word_unregister();
       }

@@ -1,0 +1,24 @@
+This repository is a personal fork of getreuer/qmk-modules
+(https://github.com/getreuer/qmk-modules) by Pascal Getreuer, maintained by
+Matthew Pardue (@mwpardue) with local modifications and additional modules
+for personal use.
+
+Unless otherwise noted below, the contents of this repository are
+Copyright Pascal Getreuer and are licensed under the Apache License,
+Version 2.0. See LICENSE.txt for the full license text.
+
+The following modules are exceptions, with separate authorship and/or
+licensing. See the header comments in each file for the authoritative
+license text.
+
+- modules/casemodes
+    Copyright 2021 Andrew Rae (ajrae.nv@gmail.com, @andrewjrae)
+    Licensed under the GNU General Public License v2.0 or later
+    (GPL-2.0-or-later), NOT the Apache License 2.0 used elsewhere in this
+    repository. See modules/casemodes/casemodes.c and casemodes.h for the
+    full license text.
+
+- modules/smart_select
+    Copyright 2021-2025 Matthew Pardue (@mwpardue)
+    Licensed under the Apache License, Version 2.0, consistent with the
+    rest of this repository.

@@ -1,35 +1,51 @@
-# @getreuer's QMK community modules
+# @mwpardue's QMK community modules (fork of @getreuer's)
 
 (This is not an officially supported Google product.)
 
+This is a personal fork of [getreuer/qmk-modules](https://github.com/getreuer/qmk-modules)
+by Pascal Getreuer, maintained by Matthew Pardue (@mwpardue) for use in my own
+QMK keymap. It combines Pascal's modules with additional modules from other
+authors and some of my own. See [NOTICE](./NOTICE) for full attribution and
+licensing details — several modules below are **not** covered by this repo's
+top-level Apache-2.0 license.
+
 ![](doc/banner.jpg)
 
-| Module                                    | Description                                           |
-|-------------------------------------------|-------------------------------------------------------|
-| [Achordion](./achordion/)                 | Customize the tap-hold decision.                      |
-| [Custom Shift Keys](./custom_shift_keys/) | Customize what keycode is produced when shifted.      |
-| [Keycode String](./keycode_string/)       | Format QMK keycodes as human-readable strings.        |
-| [Mouse Turbo Click](./mouse_turbo_click/) | Click the mouse rapidly.                              |
-| [Orbital Mouse](./orbital_mouse/)         | A polar approach to mouse key control.                |
-| [PaletteFx](./palettefx/)                 | Palette-based animated RGB matrix lighting effects.   |
-| [Select Word](./select_word/)             | Convenient word and line selection.                   |
-| [Sentence Case](./sentence_case/)         | Automatically capitalize sentences.                   |
-| [SOCD Cleaner](./socd_cleaner/)           | SOCD filtering for fast gaming inputs.                |
-| [Tap Flow](./tap_flow/)                   | Disable HRMs during fast typing (Global Quick Tap).   |
+| Module                                    | Description                                           | Source |
+|-------------------------------------------|--------------------------------------------------------|--------|
+| [Achordion](./achordion/)                 | Customize the tap-hold decision.                        | getreuer |
+| [Casemodes](./casemodes/)                 | XCase / case-mode word transforms.                       | Andrew Rae (@andrewjrae) |
+| [Custom Shift Keys](./custom_shift_keys/) | Customize what keycode is produced when shifted.        | getreuer |
+| [Keycode String](./keycode_string/)       | Format QMK keycodes as human-readable strings.           | getreuer |
+| [Mouse Turbo Click](./mouse_turbo_click/) | Click the mouse rapidly.                                 | getreuer |
+| [Orbital Mouse](./orbital_mouse/)         | A polar approach to mouse key control.                   | getreuer |
+| [PaletteFx](./palettefx/)                 | Palette-based animated RGB matrix lighting effects.      | getreuer |
+| [Select Word](./select_word/)             | Convenient word and line selection.                      | getreuer |
+| [Sentence Case](./sentence_case/)         | Automatically capitalize sentences.                      | getreuer |
+| [Smart Select](./smart_select/)           | Personal word/line selection helper.                     | mwpardue |
+| [SOCD Cleaner](./socd_cleaner/)           | SOCD filtering for fast gaming inputs.                   | getreuer |
+| [Tap Flow](./tap_flow/)                   | Disable HRMs during fast typing (Global Quick Tap).      | getreuer |
 
 
 ## What is this?
 
-This repo contains my community modules for [Quantum Mechanical Keyboard
-(QMK)](https://docs.qmk.fm) firmware, used on custom keyboards like the ZSA
-Voyager pictured above. I use most of these modules myself in [my QMK
-keymap](https://github.com/getreuer/qmk-keymap).
+Most of the modules here are Pascal Getreuer's community modules for
+[Quantum Mechanical Keyboard (QMK)](https://docs.qmk.fm) firmware — see his
+[original repo](https://github.com/getreuer/qmk-modules) and
+[his QMK keymap](https://github.com/getreuer/qmk-keymap). This fork adds
+`casemodes` (by Andrew Rae) and `smart_select` (my own) for use in my
+personal keymap.
 
 
 ## License
 
-This repo uses the Apache License 2.0 except where otherwise indicated. See the
-[LICENSE file](LICENSE.txt) for details.
+Most of this repo uses the Apache License 2.0, inherited from the upstream
+[getreuer/qmk-modules](https://github.com/getreuer/qmk-modules) repo — see the
+[LICENSE file](LICENSE.txt) for the full text. **This repo also contains code
+under other licenses; see [NOTICE](./NOTICE) and the header comments in each
+module for the authoritative license governing that module.** In particular,
+`casemodes/` is licensed GPL-2.0-or-later by its original author, Andrew Rae,
+not Apache-2.0.
 
 
 ## How to install
@@ -49,7 +65,7 @@ modules, replacing `/path/to/qmk_firmware` with the path of your
 ```sh
 cd /path/to/qmk_firmware
 mkdir -p modules
-git submodule add https://github.com/getreuer/qmk-modules.git modules/getreuer
+git submodule add https://github.com/mwpardue/qmk-modules.git modules/mwpardue
 git submodule update --init --recursive
 ```
 
@@ -57,19 +73,24 @@ Or if using [External
 Userspace](https://docs.qmk.fm/newbs_external_userspace), replace the first
 line with `cd /path/to/your/external/userspace`.
 
-Or if you don't want to use git, [download a .zip of this
-repo](https://github.com/getreuer/qmk-modules/archive/refs/heads/main.zip) into
-the `modules` folder. Unzip it, then rename the resulting `qmk-modules-main`
-folder to `getreuer`.
+Or if you don't want to use git, download a .zip of this repo from its GitHub
+page into the `modules` folder. Unzip it, then rename the resulting folder to
+`mwpardue`.
+
+If you only want Pascal Getreuer's original modules without this fork's
+additions, use his repo directly instead:
+[github.com/getreuer/qmk-modules](https://github.com/getreuer/qmk-modules).
 
 In any case, the installed directory structure is like this:
 
     <QMK_FIRMWARE or QMK_USERSPACE>
     └── modules
-        └── getreuer
+        └── mwpardue
             ├── achordion
+            ├── casemodes
             ├── custom_shift_keys
             ├── keycode_string
+            ├── smart_select
             └── ...
 
 **Step 2. Add modules to keymap.json.** Add a module to your keymap by writing a
@@ -77,7 +98,7 @@ file `keymap.json` in your keymap folder with the content
 
 ```json
 {
-  "modules": ["getreuer/tap_flow"]
+  "modules": ["mwpardue/tap_flow"]
 }
 ```
 
@@ -86,7 +107,7 @@ multiple modules like:
 
 ```json
 {
-  "modules": ["getreuer/tap_flow", "getreuer/sentence_case"]
+  "modules": ["mwpardue/tap_flow", "mwpardue/sentence_case"]
 }
 ```
 
@@ -99,5 +120,5 @@ build.
 
 ## How to uninstall
 
-Remove the modules from `keymap.json` and delete the `modules/getreuer` folder.
+Remove the modules from `keymap.json` and delete the `modules/mwpardue` folder.
 
