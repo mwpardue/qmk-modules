@@ -16,7 +16,9 @@ top-level Apache-2.0 license.
 | [Achordion](./achordion/)                 | Customize the tap-hold decision.                        | getreuer |
 | [Casemodes](./casemodes/)                 | XCase / case-mode word transforms.                       | Andrew Rae (@andrewjrae) |
 | [Custom Shift Keys](./custom_shift_keys/) | Customize what keycode is produced when shifted.        | getreuer |
+| [Cyclotab](./cyclotab/)                   | A swapper implementation for easier Alt+Tabbing.         | getreuer |
 | [Keycode String](./keycode_string/)       | Format QMK keycodes as human-readable strings.           | getreuer |
+| [Lumino](./lumino/)                       | An opinionated RGB matrix lighting control scheme.       | getreuer |
 | [Mouse Turbo Click](./mouse_turbo_click/) | Click the mouse rapidly.                                 | getreuer |
 | [Orbital Mouse](./orbital_mouse/)         | A polar approach to mouse key control.                   | getreuer |
 | [PaletteFx](./palettefx/)                 | Palette-based animated RGB matrix lighting effects.      | getreuer |
@@ -24,6 +26,8 @@ top-level Apache-2.0 license.
 | [Sentence Case](./sentence_case/)         | Automatically capitalize sentences.                      | getreuer |
 | [Smart Select](./smart_select/)           | Personal word/line selection helper.                     | mwpardue |
 | [SOCD Cleaner](./socd_cleaner/)           | SOCD filtering for fast gaming inputs.                   | getreuer |
+| [Speculative Hold](./speculative_hold/)   | Apply mod-tap mods immediately on key down.              | getreuer |
+| [Super Leader](./super_leader/)           | A snappy leader key with concise definitions.            | getreuer |
 | [Tap Flow](./tap_flow/)                   | Disable HRMs during fast typing (Global Quick Tap).      | getreuer |
 
 
